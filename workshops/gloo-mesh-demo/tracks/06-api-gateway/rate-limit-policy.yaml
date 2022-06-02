@@ -1,34 +1,8 @@
-apiVersion: networking.gloo.solo.io/v2
-kind: RouteTable
-metadata:
-  name: frontend
-  namespace: web-team
-spec:
-  hosts:
-    - '*'
-  virtualGateways:
-    - name: north-south-gw
-      namespace: ops-team
-      cluster: mgmt
-  workloadSelectors: []
-  http:
-    - name: frontend
-      labels:
-        rate-limit: "true"
-      forwardTo:
-        destinations:
-          - ref:
-              name: frontend
-              namespace: web-ui
-              cluster: cluster1
-            port:
-              number: 80
----
 apiVersion: admin.gloo.solo.io/v2
 kind: RateLimitServerSettings
 metadata:
-  name: frontend
-  namespace: web-team
+  name: product-catalog
+  namespace: backend-apis-team
 spec:
   destinationServer:
     port:
@@ -41,8 +15,8 @@ spec:
 apiVersion: trafficcontrol.policy.gloo.solo.io/v2
 kind: RateLimitClientConfig
 metadata:
-  name: frontend
-  namespace: web-team
+  name: product-catalog
+  namespace: backend-apis-team
 spec:
   raw:
     rateLimits:
@@ -53,8 +27,8 @@ spec:
 apiVersion: admin.gloo.solo.io/v2
 kind: RateLimitServerConfig
 metadata:
-  name: frontend
-  namespace: web-team
+  name: product-catalog
+  namespace: backend-apis-team
 spec:
   destinationServers:
   - ref:
@@ -74,25 +48,26 @@ spec:
 apiVersion: trafficcontrol.policy.gloo.solo.io/v2
 kind: RateLimitPolicy
 metadata:
-  name: frontend
-  namespace: web-team
+  name: product-catalog
+  namespace: backend-apis-team
 spec:
-  applyToRoutes:
-  - route:
-      labels:
-        rate-limit: "true"
+  applyToDestinations:
+  - kind: VIRTUAL_DESTINATION
+    selector:
+      namespace: backend-apis-team
+      name: product-catalog
   config:
     serverSettings:
-      name: frontend
-      namespace: web-team
+      name: product-catalog
+      namespace: backend-apis-team
       cluster: mgmt
     ratelimitClientConfig:
-      name: frontend
-      namespace: web-team
+      name: product-catalog
+      namespace: backend-apis-team
       cluster: mgmt
     ratelimitServerConfig:
-      name: frontend
-      namespace: web-team
+      name: product-catalog
+      namespace: backend-apis-team
       cluster: mgmt
     phase:
       postAuthz:
