@@ -21,4 +21,5 @@
     "git.autofetch": true,
     "terminal.integrated.tabs.enabled": false,
     "workbench.colorTheme": "Default Dark+",
+    "terminal.integrated.defaultProfile.linux": "bash",
 }
