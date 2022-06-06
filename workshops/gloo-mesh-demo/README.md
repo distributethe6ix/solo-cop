@@ -119,13 +119,10 @@ kubectl apply --context $MGMT -f tracks/06-api-gateway/ext-auth-server.yaml
 cat tracks/06-api-gateway/ext-auth-policy.yaml| envsubst | kubectl apply --context $MGMT -f -
 ```
 
-
 * Rate limiting
 ```
 kubectl apply --context $MGMT -f tracks/06-api-gateway/rate-limit-policy.yaml
 ```
-
-
 
 ```sh
 ./install/setup.sh

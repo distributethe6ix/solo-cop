@@ -30,7 +30,8 @@ create_cluster(){
   kubectl config delete-context $name > /dev/null 2>&1 || true
 
   kubectl config rename-context k3d-$name $name
-
+  # if you dont wait just a little but the kubectl command hangs
+  sleep 5
   ## setup nodel labels
   kubectl label node k3d-$name-server-0 topology.kubernetes.io/region=$region --context $name
   kubectl label node k3d-$name-server-0 topology.kubernetes.io/zone=$zone --context $name

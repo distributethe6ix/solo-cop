@@ -2,7 +2,7 @@ apiVersion: admin.gloo.solo.io/v2
 kind: RateLimitServerSettings
 metadata:
   name: rate-limit-server-settings
-  namespace: web-team
+  namespace: backend-apis-team
 spec:
   destinationServer:
     port:
@@ -16,7 +16,7 @@ apiVersion: trafficcontrol.policy.gloo.solo.io/v2
 kind: RateLimitClientConfig
 metadata:
   name: rate-limit-client-config
-  namespace: web-team
+  namespace: backend-apis-team
 spec:
   raw:
     rateLimits:
@@ -28,7 +28,7 @@ apiVersion: admin.gloo.solo.io/v2
 kind: RateLimitServerConfig
 metadata:
   name: rate-limit-server-config
-  namespace: web-team
+  namespace: backend-apis-team
 spec:
   destinationServers:
   - ref:
@@ -49,24 +49,24 @@ apiVersion: trafficcontrol.policy.gloo.solo.io/v2
 kind: RateLimitPolicy
 metadata:
   name: rate-limit-policy
-  namespace: web-team
+  namespace: backend-apis-team
 spec:
   applyToDestinations:
   - selector:
       labels:
-        app: frontend
+        app: productcatalogservice
   config:
     serverSettings:
       name: rate-limit-server-settings
-      namespace: web-team
+      namespace: backend-apis-team
       cluster: mgmt
     ratelimitClientConfig:
       name: rate-limit-client-config
-      namespace: web-team
+      namespace: backend-apis-team
       cluster: mgmt
     ratelimitServerConfig:
       name: rate-limit-server-config
-      namespace: web-team
+      namespace: backend-apis-team
       cluster: mgmt
     phase:
       preAuthz: { }
